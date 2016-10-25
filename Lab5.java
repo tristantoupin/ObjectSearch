@@ -18,6 +18,7 @@ import ObjectSearch.USLocalizer;
 public class Lab5 {
 	private static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 	private static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
+	private static final EV3LargeRegulatedMotor upperMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
 	
 	private static final Port usPort = LocalEV3.get().getPort("S3");
 	private static final Port colorPort = LocalEV3.get().getPort("S4");
@@ -80,10 +81,10 @@ public class Lab5 {
 			Odometer odo = new Odometer(leftMotor, rightMotor, 30, true);
 
 			USLocalizer usl = new USLocalizer(odo, usValue, usData, USLocalizer.LocalizationType.RISING_EDGE);
-			//usl.doLocalization();
+			usl.doLocalization();
 			
-			//while (Button.waitForAnyPress() != Button.ID_ESCAPE);
-			Mapping map = new Mapping(odo, usSensor, usData);
+			while (Button.waitForAnyPress() != Button.ID_ESCAPE);
+			Mapping map = new Mapping(odo, colorValue, upperMotor, colorData,usSensor, usData);
 			map.doMap();
 
 
