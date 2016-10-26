@@ -6,10 +6,10 @@ import lejos.hardware.Sound;
 
 public class Mapping {
 	private float[] usData;
+	@SuppressWarnings("unused")
 	private Navigation nav;
 	private EV3LargeRegulatedMotor leftMotor, rightMotor,upperMotor;
 	private Odometer odo;
-	private ObjectColor obColor;
 
 	final static int FAST = 200, SLOW = 100, SCANNING = 30, ACCELERATION = 200, GAP = 5;
 	private SampleProvider usSensor;
@@ -41,7 +41,6 @@ public class Mapping {
 		leftMotor.backward();
 		rightMotor.forward();
 		//this variable makes sure we only do a close-adjustment once
-		boolean haveAdjustedClose = false;
 		while(true){
 			//get the distance value
 			double USDistance = getData();
@@ -71,28 +70,54 @@ public class Mapping {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		/*
-		 * Check to see what we are reading for an object.
-		 * we beep once for a block and twice for the wooden block.
-		 */
 		
-		if(isBlock()){
+		if(isBlock()){		//if we see block
 			Sound.beep();
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			//since it is a block, bring down the arms, and travel to the end position
+			//capture the block
 			captureBlock();
-			nav.travelTo(0, 0);
+			//the method travelTo doesnt work well so we skip this part for the demo
+			//nav.travelTo(0, 0);
 			//then beep thrice (as specified in document)
 			Sound.beep();
 			Sound.beep();
 			Sound.beep();
 		}else{
+			Sound.beep();						//beep twice because it is brown
+			Sound.beep();
+			
+			//go backward a little bit and the turn left
+			leftMotor.setSpeed(SLOW);
+			rightMotor.setSpeed(SLOW);
+			leftMotor.backward();
+			rightMotor.backward();
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			leftMotor.stop();
+			rightMotor.stop();
+			
 			Sound.beep();
 			Sound.beep();
+			leftMotor.setSpeed(SLOW);
+			rightMotor.setSpeed(SLOW);
+			leftMotor.backward();
+			rightMotor.forward();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			leftMotor.stop();
+			rightMotor.stop();
+			//use recursion to find the blue block
+			doMap();
 		}
 		
 	}

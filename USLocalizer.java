@@ -87,12 +87,7 @@ public class USLocalizer {
 			nav.turnTo(0,true);	
 			
 	} else {
-		/*
-		 * The robot should turn until it sees the wall, then look for the
-		 * "rising edges:" the points where it no longer sees the wall.
-		 * This is very similar to the FALLING_EDGE routine, but the robot
-		 * will face toward the wall for most of it.
-		 */
+
 		// rotate the robot until it sees a wall
 		while(getFilteredData() > DIST_WALL - NOISE_MARGIN){
 			leftMotor.backward();

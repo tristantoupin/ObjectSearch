@@ -1,12 +1,10 @@
 package ObjectSearch;
 
-import org.jfree.chart.block.Block;
 
 import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
@@ -22,32 +20,21 @@ public class Lab5 {
 	
 	private static final Port usPort = LocalEV3.get().getPort("S3");
 	private static final Port colorPort = LocalEV3.get().getPort("S4");
+	@SuppressWarnings("unused")
 	private TextLCD t;
 
 	public static void main(String[] args) {
 		int buttonChoice;
 
-		@SuppressWarnings("resource")
-		// Because we don't bother to close this resource
+		
 		SensorModes usSensor = new EV3UltrasonicSensor(usPort);
-		SampleProvider usValue = usSensor.getMode("Distance"); // colorValue
-																// provides
-																// samples from
-																// this instance
-		float[] usData = new float[usValue.sampleSize()]; // colorData is the
-															// buffer in which
-															// data are returned
+		SampleProvider usValue = usSensor.getMode("Distance");
+		float[] usData = new float[usValue.sampleSize()];
 
 		@SuppressWarnings("resource")
 		EV3ColorSensor colorSensor = new EV3ColorSensor(colorPort);
-		SampleProvider colorValue = colorSensor.getRGBMode(); // colorValue
-																// provides
-																// samples from
-																// this instance
-		float[] colorData = new float[colorValue.sampleSize()]; // colorData is
-																// the buffer in
-																// which data
-																// are returned
+		SampleProvider colorValue = colorSensor.getRGBMode();
+		float[] colorData = new float[colorValue.sampleSize()];
 
 		final TextLCD t = LocalEV3.get().getTextLCD();
 		ObjectDistance objectDistance = new ObjectDistance(usSensor, usData);

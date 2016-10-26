@@ -6,10 +6,10 @@ import lejos.robotics.SampleProvider;
 public class ObjectColor {
 	private SampleProvider colorValue;
 	private float[] colorData;
+	@SuppressWarnings("unused")
 	private TextLCD t;
 
-	public ObjectColor(SampleProvider colorValue, float[] colorData, TextLCD t) { // TextLCD
-																					// t){
+	public ObjectColor(SampleProvider colorValue, float[] colorData, TextLCD t) {
 		this.colorValue = colorValue;
 		this.colorData = colorData;
 		this.t = t;
